@@ -100,7 +100,7 @@ module ActiveStorage
     end
 
     def url_for_direct_upload(key, expires_in:, content_type:, content_length:, checksum:)
-      content_length = 4194304 > content_length ? content_length : 4194304
+      content_length = content_length > 4194304 ? 4194304 : content_length
       instrument :url, key: key do |payload|
         if @block
           url = Qiniu::Config.up_host(bucket) + "/mkblk/#{content_length}"
